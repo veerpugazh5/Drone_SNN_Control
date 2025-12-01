@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Data
+sr_dataset_gt/
+preprocessed/
+*.h5
+*.pt
+
+# FPGA
+fpga/.Xil/
+fpga/xsim.dir/
+fpga/*.log
+fpga/*.jou
+fpga/*.pb
+fpga/params/*.mem
+fpga/params/*.json
+!fpga/params/README.md
+
+# IDE
+.vscode/
+.idea/
+
+# Artifacts
+best_snn_fast.pth
