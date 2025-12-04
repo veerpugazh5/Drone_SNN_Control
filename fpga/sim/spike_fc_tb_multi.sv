@@ -2,7 +2,7 @@
 
 module spike_fc_tb_multi;
 
-    parameter int NUM_SAMPLES = 20;
+    parameter int NUM_SAMPLES = 200;
     
     logic clk = 0;
     logic rst = 1;

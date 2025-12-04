@@ -92,43 +92,43 @@ def export_multiple_samples(num_samples, data_dir, params_dir, model_path, devic
     sample_info = []
     
     for export_idx, sample_idx in enumerate(selected_indices):
-            frame = test_frames[sample_idx]
-            label = test_labels[sample_idx].item()
-            
-            with torch.no_grad():
-                frame_tensor = frame.unsqueeze(0)
-                if device != "cpu":
-                    frame_tensor = frame_tensor.to(device)
-                logits, hidden_spikes = model(frame_tensor, return_hidden=True)
-                probs = torch.softmax(logits, dim=1)
-                pred = torch.argmax(probs, dim=1).item()
-            
-            hidden_spikes = hidden_spikes.squeeze(0).cpu()  # (T, 128, 8, 8)
-            
-            # Write spike stream for this sample to individual file
-            spike_file = params_dir / f"spike_stream_{export_idx}.mem"
-            with spike_file.open("w") as f:
-                for t in range(num_steps):
-                    bits = hidden_spikes[t].reshape(-1).int().tolist()
-                    for word_idx in range(words_per_step):
-                        word = 0
-                        for bit_idx in range(32):
-                            bit_pos = word_idx * 32 + bit_idx
-                            if bit_pos < len(bits) and bits[bit_pos] > 0:
-                                word |= (1 << bit_idx)
-                        f.write(f"{word:08x}\n")
-            
-            sample_info.append({
-                "sample_index": sample_idx,
-                "export_index": export_idx,
-                "label": int(label),
-                "prediction": int(pred),
-                "probabilities": probs.squeeze(0).tolist(),
-                "spike_file": f"spike_stream_{export_idx}.mem"
-            })
-            
-            if (export_idx + 1) % 5 == 0:
-                print(f"  Exported {export_idx + 1}/{num_samples} samples...")
+        frame = test_frames[sample_idx]
+        label = test_labels[sample_idx].item()
+        
+        with torch.no_grad():
+            frame_tensor = frame.unsqueeze(0)
+            if device != "cpu":
+                frame_tensor = frame_tensor.to(device)
+            logits, hidden_spikes = model(frame_tensor, return_hidden=True)
+            probs = torch.softmax(logits, dim=1)
+            pred = torch.argmax(probs, dim=1).item()
+        
+        hidden_spikes = hidden_spikes.squeeze(0).cpu()  # (T, 128, 8, 8)
+        
+        # Write spike stream for this sample to individual file
+        spike_file = params_dir / f"spike_stream_{export_idx}.mem"
+        with spike_file.open("w") as f:
+            for t in range(num_steps):
+                bits = hidden_spikes[t].reshape(-1).int().tolist()
+                for word_idx in range(words_per_step):
+                    word = 0
+                    for bit_idx in range(32):
+                        bit_pos = word_idx * 32 + bit_idx
+                        if bit_pos < len(bits) and bits[bit_pos] > 0:
+                            word |= (1 << bit_idx)
+                    f.write(f"{word:08x}\n")
+        
+        sample_info.append({
+            "sample_index": sample_idx,
+            "export_index": export_idx,
+            "label": int(label),
+            "prediction": int(pred),
+            "probabilities": probs.squeeze(0).tolist(),
+            "spike_file": f"spike_stream_{export_idx}.mem"
+        })
+        
+        if (export_idx + 1) % 5 == 0:
+            print(f"  Exported {export_idx + 1}/{num_samples} samples...")
     
     # Save summary
     summary = {
@@ -156,7 +156,7 @@ if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser(description="Export multiple samples for FPGA simulation.")
     parser.add_argument("--data", type=str,
-                        default=r"c:\Users\PRISM LAB\OneDrive - University of Arizona\Documents\Drone\preprocessed",
+                        default="preprocessed",
                         help="Directory with preprocessed .pt files.")
     parser.add_argument("--num-samples", type=int, default=20, help="Number of samples to export.")
     parser.add_argument("--model", type=str, default="best_snn_fast.pth", help="Path to trained model checkpoint.")

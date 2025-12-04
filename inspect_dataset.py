@@ -8,7 +8,7 @@ import numpy as np
 import glob
 import os
 
-ROOT_DIR = r"c:\Users\PRISM LAB\OneDrive - University of Arizona\Documents\Drone\sr_dataset_gt"
+ROOT_DIR = "sr_dataset_gt"
 
 def inspect_single_file(fpath):
     """Return stats dict for one HDF5 file."""

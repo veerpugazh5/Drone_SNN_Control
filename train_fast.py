@@ -34,12 +34,13 @@ def load_data(data_dir, augment_train=True):
         # Flip horizontally
         flipped = turning_frames.flip(dims=[3])
         
+        # Add ALL flipped turning samples (doubling the turning data)
         train_frames = torch.cat([train_frames, flipped], dim=0)
         train_labels = torch.cat([train_labels, turning_labels], dim=0)
         
-        # Also flip some straight samples for balance
+        # Also flip some straight samples for balance (keep 500 as before)
         straight_mask = train_labels == 0
-        straight_frames = train_frames[straight_mask][:500]  # Take subset
+        straight_frames = train_frames[straight_mask][:500]
         straight_labels = train_labels[straight_mask][:500]
         flipped_straight = straight_frames.flip(dims=[3])
         
@@ -53,7 +54,7 @@ def load_data(data_dir, augment_train=True):
 
 
 def train():
-    DATA_DIR = r"c:\Users\PRISM LAB\OneDrive - University of Arizona\Documents\Drone\preprocessed"
+    DATA_DIR = "preprocessed"
     BATCH_SIZE = 256  # Large batch for 4090
     EPOCHS = 50
     LR = 3e-3
@@ -85,10 +86,17 @@ def train():
     print(f"Model params: {sum(p.numel() for p in model.parameters()):,}")
     
     # Class weights
+    # Class weights - Heavily penalize missing turns
     n_straight = (train_labels == 0).sum().float()
     n_turning = (train_labels == 1).sum().float()
     total = n_straight + n_turning
+    
+    # Standard balanced weights
     weights = torch.tensor([total / (2 * n_straight), total / (2 * n_turning)]).to(device)
+    
+    # Boost turning weight slightly more to force learning
+    weights[1] *= 1.2 
+    
     print(f"Class weights: Straight={weights[0]:.2f}, Turning={weights[1]:.2f}")
     
     criterion = nn.CrossEntropyLoss(weight=weights, label_smoothing=0.1)
@@ -168,6 +176,8 @@ def train():
 
 if __name__ == "__main__":
     train()
+
+
 
 
 

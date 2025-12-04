@@ -80,8 +80,8 @@ def process_file(fpath, time_window_ms=200, target_size=(64, 64),
 
 
 def main():
-    ROOT = r"c:\Users\PRISM LAB\OneDrive - University of Arizona\Documents\Drone\sr_dataset_gt"
-    OUT_DIR = Path(r"c:\Users\PRISM LAB\OneDrive - University of Arizona\Documents\Drone\preprocessed")
+    ROOT = Path("sr_dataset_gt")
+    OUT_DIR = Path("preprocessed")
     
     WINDOWS_PER_FILE = 10  # More windows = more data
     TIME_WINDOW_MS = 200

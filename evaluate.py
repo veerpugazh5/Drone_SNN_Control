@@ -11,7 +11,7 @@ from model_binary import DroneSNNBinary
 
 
 def evaluate():
-    DATA_DIR = Path(r"c:\Users\PRISM LAB\OneDrive - University of Arizona\Documents\Drone\preprocessed")
+    DATA_DIR = Path("preprocessed")
     MODEL_PATH = "best_snn_fast.pth"
     BATCH_SIZE = 256
     

@@ -13,11 +13,14 @@ from pathlib import Path
 import json
 
 # Configuration
-DATA_DIR = Path(r"c:\Users\PRISM LAB\OneDrive - University of Arizona\Documents\Drone\preprocessed")
+DATA_DIR = Path("preprocessed")
 MODEL_PATH = "best_snn_fast.pth"
 FPGA_DIR = Path("fpga")
+# Update this path to match your Vivado installation
+# On Windows: Path(r"C:\Xilinx\Vivado\2024.2\bin\vivado.bat")
+# On Linux: Path("/opt/Xilinx/Vivado/2024.2/bin/vivado")
 VIVADO_PATH = Path(r"C:\Xilinx\Vivado\2024.2\bin\vivado.bat")
-NUM_SAMPLES = 20
+NUM_SAMPLES = 200
 CW305_MODE = False  # Set to True for CW305-specific simulation
 
 

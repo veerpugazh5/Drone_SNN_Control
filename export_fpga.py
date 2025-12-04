@@ -107,7 +107,7 @@ def export_assets(sample_idx, data_dir, params_dir, model_path, device="cpu"):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Export binary SNN for FPGA simulation.")
     parser.add_argument("--data", type=str,
-                        default=r"c:\Users\PRISM LAB\OneDrive - University of Arizona\Documents\Drone\preprocessed",
+                        default="preprocessed",
                         help="Directory with preprocessed .pt files.")
     parser.add_argument("--index", type=int, default=0, help="Sample index from test set.")
     parser.add_argument("--model", type=str, default="best_snn_fast.pth", help="Path to trained model checkpoint.")

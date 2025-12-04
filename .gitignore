@@ -15,6 +15,8 @@ fpga/xsim.dir/
 fpga/*.log
 fpga/*.jou
 fpga/*.pb
+fpga/**/*.backup.log
+fpga/**/*.backup.jou
 fpga/params/*.mem
 fpga/params/*.json
 !fpga/params/README.md
@@ -25,3 +27,12 @@ fpga/params/*.json
 
 # Artifacts
 best_snn_fast.pth
+*.pth
+
+# Generated plots (optional - uncomment if you want to exclude)
+# plots/
+
+#cw305
+cw305_chipwhisperer/
+
+reference/

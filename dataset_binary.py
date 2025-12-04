@@ -125,7 +125,7 @@ class DroneBinaryDataset(Dataset):
 
 
 if __name__ == "__main__":
-    root = r"c:\Users\PRISM LAB\OneDrive - University of Arizona\Documents\Drone\sr_dataset_gt"
+    root = "sr_dataset_gt"
     train_ds = DroneBinaryDataset(root, mode='train', augment=True, windows_per_file=5)
     test_ds = DroneBinaryDataset(root, mode='test', augment=False, windows_per_file=3)
 
